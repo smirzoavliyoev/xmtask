@@ -1,4 +1,4 @@
-package region
+package regionservice
 
 import (
 	"github.com/bradfitz/gomemcache/memcache"

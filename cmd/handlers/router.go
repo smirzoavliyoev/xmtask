@@ -6,10 +6,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func NewRouter() {
+func NewRouter(handlers *Handlers) {
 	r := mux.NewRouter()
-	// r.HandleFunc("/", HomeHandler)
-	// r.HandleFunc("/products", ProductsHandler)
-	// r.HandleFunc("/articles", ArticlesHandler)
+	r.HandleFunc("/companies", handlers.GetCompany).Methods("GET")
+	r.HandleFunc("/company", handlers.Create).Methods("POST")
+	r.HandleFunc("/company", handlers.Update).Methods("PUT")
+	r.HandleFunc("/company", handlers.Delete).Methods("DELETE")
 	http.Handle("/", r)
 }

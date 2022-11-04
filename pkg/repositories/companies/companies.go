@@ -74,7 +74,7 @@ func (c *CompanyRepo) Update(companyFilter CompanyFilter) error {
 	return nil
 }
 
-func (c *CompanyRepo) Delete(ids []int) error {
+func (c *CompanyRepo) Delete(ids ...int) error {
 	res := c.conn.Delete(&company{}, ids)
 	if res.Error != nil {
 		return res.Error

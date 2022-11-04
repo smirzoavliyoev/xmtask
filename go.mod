@@ -4,9 +4,9 @@ go 1.18
 
 require (
 	github.com/bradfitz/gomemcache v0.0.0-20221031212613-62deef7fc822
+	github.com/fegoa89/ipapi v1.0.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/gorilla/mux v1.8.0
-	github.com/imroc/req v0.3.2
 	github.com/imroc/req/v3 v3.25.0
 	github.com/nats-io/stan.go v0.10.3
 	go.uber.org/zap v1.23.0
@@ -16,7 +16,6 @@ require (
 
 require (
 	github.com/cheekybits/genny v1.0.0 // indirect
-	github.com/fegoa89/ipapi v1.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20210107165309-348f09dbbbc0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
