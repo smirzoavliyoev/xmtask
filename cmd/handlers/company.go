@@ -66,7 +66,18 @@ func (h *Handlers) Create(w http.ResponseWriter, r *http.Request) {
 		resp = responser.InternalError
 		return
 	}
+	go func() {
+		data, err := json.Marshal(body)
+		if err != nil {
+			h.logger.Error("can nod marshal data", err)
+			return
+		}
 
+		err = h.natsPub.Publish("clusterName", data)
+		if err != nil {
+			h.logger.Error("can not publish data after creation", err)
+		}
+	}()
 	resp = responser.Success
 }
 
@@ -99,6 +110,19 @@ func (h *Handlers) Update(w http.ResponseWriter, r *http.Request) {
 		resp = responser.InternalError
 		return
 	}
+
+	go func() {
+		data, err := json.Marshal(body)
+		if err != nil {
+			h.logger.Error("can nod marshal data", err)
+			return
+		}
+
+		err = h.natsPub.Publish("clusterName", data)
+		if err != nil {
+			h.logger.Error("can not publish data after update", err)
+		}
+	}()
 
 	resp = responser.Success
 }
@@ -134,6 +158,19 @@ func (h *Handlers) Delete(w http.ResponseWriter, r *http.Request) {
 		resp = responser.InternalError
 		return
 	}
+
+	go func() {
+		data, err := json.Marshal(body)
+		if err != nil {
+			h.logger.Error("can nod marshal data", err)
+			return
+		}
+
+		err = h.natsPub.Publish("clusterName", data)
+		if err != nil {
+			h.logger.Error("can not publish data after deletion", err)
+		}
+	}()
 
 	resp = responser.Success
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/smirzoavliyoev/xmtask/pkg/logger"
 	"github.com/smirzoavliyoev/xmtask/pkg/nats/config"
 	"github.com/smirzoavliyoev/xmtask/pkg/nats/connection"
+	"github.com/smirzoavliyoev/xmtask/pkg/nats/publisher"
 	"github.com/smirzoavliyoev/xmtask/pkg/repositories"
 	"github.com/smirzoavliyoev/xmtask/pkg/repositories/companies"
 )
@@ -26,7 +27,10 @@ func main() {
 	db := repositories.NewDB()
 	companiesRepository := companies.NewCompanyRepo(db)
 	companyService := company.NewCompanyService(companiesRepository, logger)
-	handlersService := handlers.NewHandlers(companyService, logger)
+
+	pub := publisher.NewPublisher(conn)
+
+	handlersService := handlers.NewHandlers(companyService, logger, pub)
 
 	go func() {
 		handlers.NewRouter(handlersService)

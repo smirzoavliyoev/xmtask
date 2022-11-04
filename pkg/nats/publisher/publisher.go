@@ -12,6 +12,6 @@ func NewPublisher(sc stan.Conn) *Publisher {
 	}
 }
 
-func (p *Publisher) Publish(clusterName string, message string) error {
-	return p.sc.Publish(clusterName, []byte(message))
+func (p *Publisher) Publish(clusterName string, message []byte) error {
+	return p.sc.Publish(clusterName, message)
 }
