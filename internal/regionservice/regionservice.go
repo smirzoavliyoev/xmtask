@@ -9,7 +9,7 @@ type RegionService struct {
 	client *memcache.Client
 }
 
-func NewRegionService(ips []string) *RegionService {
+func NewRegionService(ips ...string) *RegionService {
 	mc := memcache.New(ips...)
 	return &RegionService{
 		client: mc,
