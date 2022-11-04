@@ -16,9 +16,10 @@ type Company struct {
 	logger *zap.SugaredLogger
 }
 
-func NewCompanyService(repo *companies.CompanyRepo) *Company {
+func NewCompanyService(repo *companies.CompanyRepo, logger *zap.SugaredLogger) *Company {
 	return &Company{
-		repo: *repo,
+		repo:   *repo,
+		logger: logger,
 	}
 }
 

@@ -10,6 +10,12 @@ type CompanyRepo struct {
 	conn *gorm.DB
 }
 
+func NewCompanyRepo(conn *gorm.DB) *CompanyRepo {
+	return &CompanyRepo{
+		conn: conn,
+	}
+}
+
 type company struct {
 	ID      uint
 	Name    string

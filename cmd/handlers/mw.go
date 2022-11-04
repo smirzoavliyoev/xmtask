@@ -51,6 +51,7 @@ func AuthMW(next http.Handler) http.Handler {
 
 		if r.Method != "POST" && r.Method != "DELETE" {
 			next.ServeHTTP(w, r)
+			return
 		}
 
 		token := r.Header.Get("auth-token")
