@@ -12,8 +12,9 @@ type Handlers struct {
 	logger         *zap.SugaredLogger
 }
 
-func NewHandlers(companyService *company.Company) *Handlers {
+func NewHandlers(companyService *company.Company, logger *zap.SugaredLogger) *Handlers {
 	return &Handlers{
 		companyService: companyService,
+		logger:         logger,
 	}
 }

@@ -33,8 +33,12 @@ func CountryResrictionMiddleware(next http.Handler) http.Handler {
 			responser.Response(responser.InternalError, w)
 			return
 		}
-		if country != "Cyprus" {
-			responser.Response(responser.Forbbiden, w)
+		if r.Method == "POST" || r.Method == "DELETE" {
+			if country != "Cyprus" {
+				responser.Response(responser.Forbbiden, w)
+				return
+			}
+			next.ServeHTTP(w, r)
 			return
 		}
 		next.ServeHTTP(w, r)
@@ -44,6 +48,11 @@ func CountryResrictionMiddleware(next http.Handler) http.Handler {
 
 func AuthMW(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		if r.Method != "POST" && r.Method != "DELETE" {
+			next.ServeHTTP(w, r)
+		}
+
 		token := r.Header.Get("auth-token")
 		err := jwt.Validate(token, "secret")
 		if err != nil {

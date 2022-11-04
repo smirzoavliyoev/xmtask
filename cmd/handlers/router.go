@@ -12,5 +12,6 @@ func NewRouter(handlers *Handlers) {
 	r.HandleFunc("/company", handlers.Create).Methods("POST")
 	r.HandleFunc("/company", handlers.Update).Methods("PUT")
 	r.HandleFunc("/company", handlers.Delete).Methods("DELETE")
+	r.Use(PanicRecovery, CountryResrictionMiddleware, AuthMW)
 	http.Handle("/", r)
 }

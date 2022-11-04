@@ -4,9 +4,13 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/smirzoavliyoev/xmtask/cmd/handlers"
+	company "github.com/smirzoavliyoev/xmtask/internal/companyservice"
 	"github.com/smirzoavliyoev/xmtask/pkg/logger"
 	"github.com/smirzoavliyoev/xmtask/pkg/nats/config"
 	"github.com/smirzoavliyoev/xmtask/pkg/nats/connection"
+	"github.com/smirzoavliyoev/xmtask/pkg/repositories"
+	"github.com/smirzoavliyoev/xmtask/pkg/repositories/companies"
 )
 
 func main() {
@@ -19,13 +23,20 @@ func main() {
 		ClusterID: "some",
 		ClientID:  "some",
 	})
-	defer conn.Close()
+	db := repositories.NewDB()
+	companiesRepository := companies.NewCompanyRepo(db)
+	companyService := company.NewCompanyService(companiesRepository, logger)
+	handlersService := handlers.NewHandlers(companyService, logger)
+
+	go func() {
+		handlers.NewRouter(handlersService)
+	}()
 
 	ch := make(chan os.Signal)
 	signal.Notify(ch, os.Interrupt, os.Kill)
 	//serve server
 	//TODO:: gracefully shutdown server
 	<-ch
+	conn.Close()
 	logger.Sync()
-
 }
