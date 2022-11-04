@@ -21,6 +21,8 @@ func (h *Handlers) GetCompany(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&body)
 	if err != nil {
+		// TODO:: add logger levels by clozhure or context
+		h.logger.Info("can not parse data", err)
 		resp = responser.BadRequest
 		return
 	}
@@ -32,6 +34,7 @@ func (h *Handlers) GetCompany(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		resp = responser.InternalError
+		h.logger.Error("error while trying to fetch data from repository", err)
 		return
 	}
 
@@ -51,12 +54,15 @@ func (h *Handlers) Create(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&body)
 	if err != nil {
+		h.logger.Info("can not parse data", err)
+
 		resp = responser.BadRequest
 		return
 	}
 
 	err = h.companyService.Create(body)
 	if err != nil {
+		h.logger.Error("error while trying to create data from repository", err)
 		resp = responser.InternalError
 		return
 	}
@@ -76,6 +82,8 @@ func (h *Handlers) Update(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&body)
 	if err != nil {
+		h.logger.Info("can not parse data", err)
+
 		resp = responser.BadRequest
 		return
 	}
@@ -86,6 +94,8 @@ func (h *Handlers) Update(w http.ResponseWriter, r *http.Request) {
 			resp = responser.NotFound
 			return
 		}
+		h.logger.Error("error while trying to update data from repository", err)
+
 		resp = responser.InternalError
 		return
 	}
@@ -107,6 +117,8 @@ func (h *Handlers) Delete(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&body)
 	if err != nil {
+		h.logger.Info("can not parse data", err)
+
 		resp = responser.BadRequest
 		return
 	}
@@ -117,6 +129,8 @@ func (h *Handlers) Delete(w http.ResponseWriter, r *http.Request) {
 			resp = responser.NotFound
 			return
 		}
+		h.logger.Error("error while trying to delete data from repository", err)
+
 		resp = responser.InternalError
 		return
 	}
